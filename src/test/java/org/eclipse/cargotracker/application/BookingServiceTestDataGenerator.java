@@ -1,7 +1,8 @@
 package org.eclipse.cargotracker.application;
 
-import java.util.List;
-import java.util.logging.Logger;
+import org.eclipse.cargotracker.domain.model.cargo.Cargo;
+import org.eclipse.cargotracker.domain.model.location.SampleLocations;
+import org.eclipse.cargotracker.domain.model.voyage.SampleVoyages;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
@@ -11,10 +12,8 @@ import javax.ejb.TransactionAttributeType;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import org.eclipse.cargotracker.domain.model.cargo.Cargo;
-import org.eclipse.cargotracker.domain.model.location.SampleLocations;
-import org.eclipse.cargotracker.domain.model.voyage.SampleVoyages;
+import java.util.List;
+import java.util.logging.Logger;
 
 /** Loads sample data for demo. */
 @Singleton

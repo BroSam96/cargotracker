@@ -1,27 +1,11 @@
 package org.eclipse.cargotracker.scenario;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-
 import org.eclipse.cargotracker.application.ApplicationEvents;
 import org.eclipse.cargotracker.application.BookingService;
 import org.eclipse.cargotracker.application.CargoInspectionService;
 import org.eclipse.cargotracker.application.HandlingEventService;
 import org.eclipse.cargotracker.application.util.DateUtil;
-import org.eclipse.cargotracker.domain.model.cargo.Cargo;
-import org.eclipse.cargotracker.domain.model.cargo.CargoRepository;
-import org.eclipse.cargotracker.domain.model.cargo.HandlingActivity;
-import org.eclipse.cargotracker.domain.model.cargo.Itinerary;
-import org.eclipse.cargotracker.domain.model.cargo.Leg;
-import org.eclipse.cargotracker.domain.model.cargo.RouteSpecification;
-import org.eclipse.cargotracker.domain.model.cargo.RoutingStatus;
-import org.eclipse.cargotracker.domain.model.cargo.TrackingId;
-import org.eclipse.cargotracker.domain.model.cargo.TransportStatus;
+import org.eclipse.cargotracker.domain.model.cargo.*;
 import org.eclipse.cargotracker.domain.model.handling.CannotCreateHandlingEventException;
 import org.eclipse.cargotracker.domain.model.handling.HandlingEvent;
 import org.eclipse.cargotracker.domain.model.handling.HandlingEventFactory;
@@ -36,6 +20,12 @@ import org.eclipse.cargotracker.domain.model.voyage.VoyageNumber;
 import org.eclipse.cargotracker.domain.model.voyage.VoyageRepository;
 import org.eclipse.cargotracker.domain.service.RoutingService;
 import org.junit.Assert;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.*;
 
 public class CargoLifecycleScenarioTest {
 

@@ -1,58 +1,18 @@
 package org.eclipse.cargotracker.application;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Random;
-
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.apache.commons.lang3.time.DateUtils;
 import org.eclipse.cargotracker.application.internal.DefaultBookingService;
 import org.eclipse.cargotracker.application.util.DateUtil;
 import org.eclipse.cargotracker.application.util.RestConfiguration;
-import org.eclipse.cargotracker.domain.model.cargo.Cargo;
-import org.eclipse.cargotracker.domain.model.cargo.CargoRepository;
-import org.eclipse.cargotracker.domain.model.cargo.Delivery;
-import org.eclipse.cargotracker.domain.model.cargo.HandlingActivity;
-import org.eclipse.cargotracker.domain.model.cargo.Itinerary;
-import org.eclipse.cargotracker.domain.model.cargo.Leg;
-import org.eclipse.cargotracker.domain.model.cargo.RouteSpecification;
-import org.eclipse.cargotracker.domain.model.cargo.RoutingStatus;
-import org.eclipse.cargotracker.domain.model.cargo.TrackingId;
-import org.eclipse.cargotracker.domain.model.cargo.TransportStatus;
-import org.eclipse.cargotracker.domain.model.handling.CannotCreateHandlingEventException;
-import org.eclipse.cargotracker.domain.model.handling.HandlingEvent;
-import org.eclipse.cargotracker.domain.model.handling.HandlingEventFactory;
-import org.eclipse.cargotracker.domain.model.handling.HandlingEventRepository;
-import org.eclipse.cargotracker.domain.model.handling.HandlingHistory;
-import org.eclipse.cargotracker.domain.model.handling.UnknownCargoException;
-import org.eclipse.cargotracker.domain.model.handling.UnknownLocationException;
-import org.eclipse.cargotracker.domain.model.handling.UnknownVoyageException;
+import org.eclipse.cargotracker.domain.model.cargo.*;
+import org.eclipse.cargotracker.domain.model.handling.*;
 import org.eclipse.cargotracker.domain.model.location.Location;
 import org.eclipse.cargotracker.domain.model.location.LocationRepository;
 import org.eclipse.cargotracker.domain.model.location.SampleLocations;
 import org.eclipse.cargotracker.domain.model.location.UnLocode;
-import org.eclipse.cargotracker.domain.model.voyage.CarrierMovement;
-import org.eclipse.cargotracker.domain.model.voyage.SampleVoyages;
-import org.eclipse.cargotracker.domain.model.voyage.Schedule;
-import org.eclipse.cargotracker.domain.model.voyage.Voyage;
-import org.eclipse.cargotracker.domain.model.voyage.VoyageNumber;
-import org.eclipse.cargotracker.domain.model.voyage.VoyageRepository;
+import org.eclipse.cargotracker.domain.model.voyage.*;
 import org.eclipse.cargotracker.domain.service.RoutingService;
-import org.eclipse.cargotracker.domain.shared.AbstractSpecification;
-import org.eclipse.cargotracker.domain.shared.AndSpecification;
-import org.eclipse.cargotracker.domain.shared.DomainObjectUtils;
-import org.eclipse.cargotracker.domain.shared.NotSpecification;
-import org.eclipse.cargotracker.domain.shared.OrSpecification;
-import org.eclipse.cargotracker.domain.shared.Specification;
+import org.eclipse.cargotracker.domain.shared.*;
 import org.eclipse.cargotracker.infrastructure.logging.LoggerProducer;
 import org.eclipse.cargotracker.infrastructure.persistence.jpa.JpaCargoRepository;
 import org.eclipse.cargotracker.infrastructure.persistence.jpa.JpaHandlingEventRepository;
@@ -69,9 +29,14 @@ import org.jboss.arquillian.junit.InSequence;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
+
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.*;
 
 /**
  * Application layer integration test covering a number of otherwise fairly trivial components that
@@ -188,18 +153,18 @@ public class BookingServiceTest {
             .setParameter("trackingId", trackingId)
             .getSingleResult();
 
-    assertEquals(SampleLocations.CHICAGO, cargo.getOrigin());
-    assertEquals(SampleLocations.STOCKHOLM, cargo.getRouteSpecification().getDestination());
-    assertTrue(DateUtils.isSameDay(deadline, cargo.getRouteSpecification().getArrivalDeadline()));
-    assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
-    assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
-    assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
-    assertFalse(cargo.getDelivery().isMisdirected());
-    assertEquals(Delivery.ETA_UNKOWN, cargo.getDelivery().getEstimatedTimeOfArrival());
-    assertEquals(Delivery.NO_ACTIVITY, cargo.getDelivery().getNextExpectedActivity());
-    assertFalse(cargo.getDelivery().isUnloadedAtDestination());
-    assertEquals(RoutingStatus.NOT_ROUTED, cargo.getDelivery().getRoutingStatus());
-    assertEquals(Itinerary.EMPTY_ITINERARY, cargo.getItinerary());
+    Assertions.assertEquals(SampleLocations.CHICAGO, cargo.getOrigin());
+    Assertions.assertEquals(SampleLocations.STOCKHOLM, cargo.getRouteSpecification().getDestination());
+    Assertions.assertTrue(DateUtils.isSameDay(deadline, cargo.getRouteSpecification().getArrivalDeadline()));
+    Assertions.assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
+    Assertions.assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
+    Assertions.assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
+    Assertions.assertFalse(cargo.getDelivery().isMisdirected());
+    Assertions.assertEquals(Delivery.ETA_UNKOWN, cargo.getDelivery().getEstimatedTimeOfArrival());
+    Assertions.assertEquals(Delivery.NO_ACTIVITY, cargo.getDelivery().getNextExpectedActivity());
+    Assertions.assertFalse(cargo.getDelivery().isUnloadedAtDestination());
+    Assertions.assertEquals(RoutingStatus.NOT_ROUTED, cargo.getDelivery().getRoutingStatus());
+    Assertions.assertEquals(Itinerary.EMPTY_ITINERARY, cargo.getItinerary());
   }
 
   @Test
@@ -207,7 +172,7 @@ public class BookingServiceTest {
   public void testRouteCandidates() {
     candidates = bookingService.requestPossibleRoutesForCargo(trackingId);
 
-    assertFalse(candidates.isEmpty());
+    Assertions.assertFalse(candidates.isEmpty());
   }
 
   @Test
@@ -223,19 +188,19 @@ public class BookingServiceTest {
             .setParameter("trackingId", trackingId)
             .getSingleResult();
 
-    assertEquals(assigned, cargo.getItinerary());
-    assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
-    assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
-    assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
-    assertFalse(cargo.getDelivery().isMisdirected());
-    assertTrue(cargo.getDelivery().getEstimatedTimeOfArrival().before(deadline));
-    Assert.assertEquals(
+    Assertions.assertEquals(assigned, cargo.getItinerary());
+    Assertions.assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
+    Assertions.assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
+    Assertions.assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
+    Assertions.assertFalse(cargo.getDelivery().isMisdirected());
+    Assertions.assertTrue(cargo.getDelivery().getEstimatedTimeOfArrival().before(deadline));
+    Assertions.assertEquals(
         HandlingEvent.Type.RECEIVE, cargo.getDelivery().getNextExpectedActivity().getType());
-    Assert.assertEquals(
+    Assertions.assertEquals(
         SampleLocations.CHICAGO, cargo.getDelivery().getNextExpectedActivity().getLocation());
-    Assert.assertEquals(null, cargo.getDelivery().getNextExpectedActivity().getVoyage());
-    assertFalse(cargo.getDelivery().isUnloadedAtDestination());
-    assertEquals(RoutingStatus.ROUTED, cargo.getDelivery().getRoutingStatus());
+    Assertions.assertNull(cargo.getDelivery().getNextExpectedActivity().getVoyage());
+    Assertions.assertFalse(cargo.getDelivery().isUnloadedAtDestination());
+    Assertions.assertEquals(RoutingStatus.ROUTED, cargo.getDelivery().getRoutingStatus());
   }
 
   @Test
@@ -249,18 +214,18 @@ public class BookingServiceTest {
             .setParameter("trackingId", trackingId)
             .getSingleResult();
 
-    assertEquals(SampleLocations.CHICAGO, cargo.getOrigin());
-    assertEquals(SampleLocations.HELSINKI, cargo.getRouteSpecification().getDestination());
-    assertTrue(DateUtils.isSameDay(deadline, cargo.getRouteSpecification().getArrivalDeadline()));
-    assertEquals(assigned, cargo.getItinerary());
-    assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
-    assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
-    assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
-    assertFalse(cargo.getDelivery().isMisdirected());
-    assertEquals(Delivery.ETA_UNKOWN, cargo.getDelivery().getEstimatedTimeOfArrival());
-    assertEquals(Delivery.NO_ACTIVITY, cargo.getDelivery().getNextExpectedActivity());
-    assertFalse(cargo.getDelivery().isUnloadedAtDestination());
-    assertEquals(RoutingStatus.MISROUTED, cargo.getDelivery().getRoutingStatus());
+    Assertions.assertEquals(SampleLocations.CHICAGO, cargo.getOrigin());
+    Assertions.assertEquals(SampleLocations.HELSINKI, cargo.getRouteSpecification().getDestination());
+    Assertions.assertTrue(DateUtils.isSameDay(deadline, cargo.getRouteSpecification().getArrivalDeadline()));
+    Assertions.assertEquals(assigned, cargo.getItinerary());
+    Assertions.assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
+    Assertions.assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
+    Assertions.assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
+    Assertions.assertFalse(cargo.getDelivery().isMisdirected());
+    Assertions.assertEquals(Delivery.ETA_UNKOWN, cargo.getDelivery().getEstimatedTimeOfArrival());
+    Assertions.assertEquals(Delivery.NO_ACTIVITY, cargo.getDelivery().getNextExpectedActivity());
+    Assertions.assertFalse(cargo.getDelivery().isUnloadedAtDestination());
+    Assertions.assertEquals(RoutingStatus.MISROUTED, cargo.getDelivery().getRoutingStatus());
   }
 
   @Test
@@ -278,18 +243,18 @@ public class BookingServiceTest {
             .setParameter("trackingId", trackingId)
             .getSingleResult();
 
-    assertEquals(SampleLocations.CHICAGO, cargo.getOrigin());
-    assertEquals(SampleLocations.HELSINKI, cargo.getRouteSpecification().getDestination());
-    assertTrue(
+    Assertions.assertEquals(SampleLocations.CHICAGO, cargo.getOrigin());
+    Assertions.assertEquals(SampleLocations.HELSINKI, cargo.getRouteSpecification().getDestination());
+    Assertions.assertTrue(
         DateUtils.isSameDay(newDeadline, cargo.getRouteSpecification().getArrivalDeadline()));
-    assertEquals(assigned, cargo.getItinerary());
-    assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
-    assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
-    assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
-    assertFalse(cargo.getDelivery().isMisdirected());
-    assertEquals(Delivery.ETA_UNKOWN, cargo.getDelivery().getEstimatedTimeOfArrival());
-    assertEquals(Delivery.NO_ACTIVITY, cargo.getDelivery().getNextExpectedActivity());
-    assertFalse(cargo.getDelivery().isUnloadedAtDestination());
-    assertEquals(RoutingStatus.MISROUTED, cargo.getDelivery().getRoutingStatus());
+    Assertions.assertEquals(assigned, cargo.getItinerary());
+    Assertions.assertEquals(TransportStatus.NOT_RECEIVED, cargo.getDelivery().getTransportStatus());
+    Assertions.assertEquals(Location.UNKNOWN, cargo.getDelivery().getLastKnownLocation());
+    Assertions.assertEquals(Voyage.NONE, cargo.getDelivery().getCurrentVoyage());
+    Assertions.assertFalse(cargo.getDelivery().isMisdirected());
+    Assertions.assertEquals(Delivery.ETA_UNKOWN, cargo.getDelivery().getEstimatedTimeOfArrival());
+    Assertions.assertEquals(Delivery.NO_ACTIVITY, cargo.getDelivery().getNextExpectedActivity());
+    Assertions.assertFalse(cargo.getDelivery().isUnloadedAtDestination());
+    Assertions.assertEquals(RoutingStatus.MISROUTED, cargo.getDelivery().getRoutingStatus());
   }
 }

@@ -1,10 +1,5 @@
 package org.eclipse.cargotracker.domain.model.handling;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.Arrays;
-import java.util.Date;
-
 import org.eclipse.cargotracker.application.util.DateUtil;
 import org.eclipse.cargotracker.domain.model.cargo.Cargo;
 import org.eclipse.cargotracker.domain.model.cargo.RouteSpecification;
@@ -12,7 +7,12 @@ import org.eclipse.cargotracker.domain.model.cargo.TrackingId;
 import org.eclipse.cargotracker.domain.model.location.SampleLocations;
 import org.eclipse.cargotracker.domain.model.voyage.Voyage;
 import org.eclipse.cargotracker.domain.model.voyage.VoyageNumber;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Date;
+
 
 // TODO [Jakarta EE 8] Move to the Java Date-Time API for date manipulation. Avoid hard-coded dates.
 public class HandlingHistoryTest {
@@ -58,12 +58,12 @@ public class HandlingHistoryTest {
 
     @Test
     public void testDistinctEventsByCompletionTime() {
-        assertEquals(
+        Assertions.assertEquals(
                 Arrays.asList(event1, event2), handlingHistory.getDistinctEventsByCompletionTime());
     }
 
     @Test
     public void testMostRecentlyCompletedEvent() {
-        assertEquals(event2, handlingHistory.getMostRecentlyCompletedEvent());
+        Assertions.assertEquals(event2, handlingHistory.getMostRecentlyCompletedEvent());
     }
 }

@@ -1,17 +1,15 @@
 package org.eclipse.cargotracker.domain.model.handling;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.util.Arrays;
-import java.util.Date;
-
 import org.eclipse.cargotracker.domain.model.cargo.Cargo;
 import org.eclipse.cargotracker.domain.model.cargo.RouteSpecification;
 import org.eclipse.cargotracker.domain.model.cargo.TrackingId;
 import org.eclipse.cargotracker.domain.model.location.SampleLocations;
 import org.eclipse.cargotracker.domain.model.voyage.SampleVoyages;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Date;
 
 public class HandlingEventTest {
 
@@ -30,7 +28,7 @@ public class HandlingEventTest {
                         HandlingEvent.Type.LOAD,
                         SampleLocations.HONGKONG,
                         SampleVoyages.CM003);
-        assertEquals(SampleLocations.HONGKONG, event1.getLocation());
+        Assertions.assertEquals(SampleLocations.HONGKONG, event1.getLocation());
 
         HandlingEvent event2 =
                 new HandlingEvent(
@@ -40,7 +38,7 @@ public class HandlingEventTest {
                         HandlingEvent.Type.UNLOAD,
                         SampleLocations.NEWYORK,
                         SampleVoyages.CM003);
-        assertEquals(SampleLocations.NEWYORK, event2.getLocation());
+        Assertions.assertEquals(SampleLocations.NEWYORK, event2.getLocation());
 
         // These event types prohibit a carrier movement association
         for (HandlingEvent.Type type :
@@ -56,7 +54,7 @@ public class HandlingEventTest {
                         type,
                         SampleLocations.HONGKONG,
                         SampleVoyages.CM003);
-                fail("Handling event type " + type + " prohibits carrier movement");
+                Assertions.fail("Handling event type " + type + " prohibits carrier movement");
             } catch (IllegalArgumentException expected) {
             }
         }
@@ -67,7 +65,7 @@ public class HandlingEventTest {
             try {
                 new HandlingEvent(
                         cargo, new Date(), new Date(), type, SampleLocations.HONGKONG, null);
-                fail("Handling event type " + type + " requires carrier movement");
+                Assertions.fail("Handling event type " + type + " requires carrier movement");
             } catch (NullPointerException expected) {
             }
         }
@@ -82,7 +80,7 @@ public class HandlingEventTest {
                         new Date(),
                         HandlingEvent.Type.CLAIM,
                         SampleLocations.HELSINKI);
-        assertEquals(SampleLocations.HELSINKI, event1.getLocation());
+        Assertions.assertEquals(SampleLocations.HELSINKI, event1.getLocation());
     }
 
     @Test
@@ -96,7 +94,7 @@ public class HandlingEventTest {
                         SampleLocations.CHICAGO,
                         SampleVoyages.CM004);
 
-        assertEquals(SampleLocations.CHICAGO, event.getLocation());
+        Assertions.assertEquals(SampleLocations.CHICAGO, event.getLocation());
     }
 
     @Test
@@ -110,7 +108,7 @@ public class HandlingEventTest {
                         SampleLocations.HAMBURG,
                         SampleVoyages.CM004);
 
-        assertEquals(SampleLocations.HAMBURG, ev.getLocation());
+        Assertions.assertEquals(SampleLocations.HAMBURG, ev.getLocation());
     }
 
     @Test
@@ -123,7 +121,7 @@ public class HandlingEventTest {
                         HandlingEvent.Type.RECEIVE,
                         SampleLocations.CHICAGO);
 
-        assertEquals(SampleLocations.CHICAGO, event.getLocation());
+        Assertions.assertEquals(SampleLocations.CHICAGO, event.getLocation());
     }
 
     @Test
@@ -136,6 +134,6 @@ public class HandlingEventTest {
                         HandlingEvent.Type.CLAIM,
                         SampleLocations.CHICAGO);
 
-        assertEquals(SampleLocations.CHICAGO, event.getLocation());
+        Assertions.assertEquals(SampleLocations.CHICAGO, event.getLocation());
     }
 }

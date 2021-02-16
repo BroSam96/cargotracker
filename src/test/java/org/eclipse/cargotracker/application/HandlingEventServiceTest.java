@@ -1,7 +1,5 @@
 package org.eclipse.cargotracker.application;
 
-import java.util.Date;
-
 import org.eclipse.cargotracker.application.internal.DefaultHandlingEventService;
 import org.eclipse.cargotracker.domain.model.cargo.Cargo;
 import org.eclipse.cargotracker.domain.model.cargo.RouteSpecification;
@@ -9,6 +7,8 @@ import org.eclipse.cargotracker.domain.model.cargo.TrackingId;
 import org.eclipse.cargotracker.domain.model.handling.HandlingEvent;
 import org.eclipse.cargotracker.domain.model.location.SampleLocations;
 import org.eclipse.cargotracker.domain.model.voyage.SampleVoyages;
+
+import java.util.Date;
 
 public class HandlingEventServiceTest {
 

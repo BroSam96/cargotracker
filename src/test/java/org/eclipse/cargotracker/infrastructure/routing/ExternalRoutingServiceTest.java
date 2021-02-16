@@ -1,20 +1,14 @@
 package org.eclipse.cargotracker.infrastructure.routing;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import org.eclipse.cargotracker.domain.model.cargo.*;
+import org.eclipse.cargotracker.domain.model.location.Location;
+import org.eclipse.cargotracker.domain.model.location.SampleLocations;
+import org.junit.Assert;
 
 import java.util.Date;
 import java.util.List;
 
-import org.eclipse.cargotracker.domain.model.cargo.Cargo;
-import org.eclipse.cargotracker.domain.model.cargo.Itinerary;
-import org.eclipse.cargotracker.domain.model.cargo.Leg;
-import org.eclipse.cargotracker.domain.model.cargo.RouteSpecification;
-import org.eclipse.cargotracker.domain.model.cargo.TrackingId;
-import org.eclipse.cargotracker.domain.model.location.Location;
-import org.eclipse.cargotracker.domain.model.location.SampleLocations;
-import org.junit.Assert;
+import static org.junit.Assert.*;
 
 public class ExternalRoutingServiceTest {
 

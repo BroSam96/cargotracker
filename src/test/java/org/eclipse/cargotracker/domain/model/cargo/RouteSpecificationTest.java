@@ -1,15 +1,13 @@
 package org.eclipse.cargotracker.domain.model.cargo;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Arrays;
-
 import org.eclipse.cargotracker.application.util.DateUtil;
 import org.eclipse.cargotracker.domain.model.location.SampleLocations;
 import org.eclipse.cargotracker.domain.model.voyage.Voyage;
 import org.eclipse.cargotracker.domain.model.voyage.VoyageNumber;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 // TODO [Jakarta EE 8] Move to the Java Date-Time API for date manipulation. Avoid hard-coded dates.
 public class RouteSpecificationTest {
@@ -64,7 +62,7 @@ public class RouteSpecificationTest {
                         SampleLocations.CHICAGO,
                         DateUtil.toDate("2009-03-01"));
 
-        assertTrue(routeSpecification.isSatisfiedBy(itinerary));
+        Assertions.assertTrue(routeSpecification.isSatisfiedBy(itinerary));
     }
 
     @Test
@@ -75,7 +73,7 @@ public class RouteSpecificationTest {
                         SampleLocations.CHICAGO,
                         DateUtil.toDate("2009-03-01"));
 
-        assertFalse(routeSpecification.isSatisfiedBy(itinerary));
+        Assertions.assertFalse(routeSpecification.isSatisfiedBy(itinerary));
     }
 
     @Test
@@ -86,7 +84,7 @@ public class RouteSpecificationTest {
                         SampleLocations.DALLAS,
                         DateUtil.toDate("2009-03-01"));
 
-        assertFalse(routeSpecification.isSatisfiedBy(itinerary));
+        Assertions.assertFalse(routeSpecification.isSatisfiedBy(itinerary));
     }
 
     @Test
@@ -97,6 +95,6 @@ public class RouteSpecificationTest {
                         SampleLocations.CHICAGO,
                         DateUtil.toDate("2009-02-15"));
 
-        assertFalse(routeSpecification.isSatisfiedBy(itinerary));
+        Assertions.assertFalse(routeSpecification.isSatisfiedBy(itinerary));
     }
 }
